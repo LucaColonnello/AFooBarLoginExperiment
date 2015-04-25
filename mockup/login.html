@@ -11,6 +11,8 @@
             <i class="fa fa-spinner fa-spin"></i> Caricamento in corso...
         </div>
 
+        <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
         <!-- if server says you are not logged in -->
         <script id="LoginForm" type="ractive/template">
             <form on-submit="validate" data-role="form" action="login.html">
@@ -51,7 +53,6 @@
             </ul>
         </script>
 
-        <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
         <script>
             var LoginForm = new Ractive({
                 "el": "#ForeGround",

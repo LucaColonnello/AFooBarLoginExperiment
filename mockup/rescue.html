@@ -11,6 +11,8 @@
             <i class="fa fa-spinner fa-spin"></i> Caricamento in corso...
         </div>
 
+        <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
         <!-- you should be not logged in -->
         <script id="RescueForm" type="ractive/template">
             <form on-submit="validate" data-role="form" action="rescue.html">
@@ -40,7 +42,6 @@
             </ul>
         </script>
 
-        <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
         <script>
             var RescueForm = new Ractive({
                 "el": "#ForeGround",
