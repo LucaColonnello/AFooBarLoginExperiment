@@ -54,9 +54,9 @@
         <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
         <script>
             var LoginForm = new Ractive({
-                "el": '#ForeGround',
-                "template": '#LoginForm',
-                "data": { disabled: true, passwordLength: 8 },
+                "el": "#ForeGround",
+                "template": "#LoginForm",
+                "data": { "disabled": true, "passwordLength": 8 },
                 "validationPassedCallback": function(){
                     LoginForm.set("disabled", false);
                 }
