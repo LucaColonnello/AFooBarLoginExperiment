@@ -11,43 +11,61 @@
             <i class="fa fa-spinner fa-spin"></i> Caricamento in corso...
         </div>
 
+        <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
         <!-- if server says you are not logged in -->
         <script id="LoginForm" type="ractive/template">
-            <form action="{{ services.login }}">
-                <label for="loginUserName">Nome utente</label>:
-                <input value="{{ userName }}" placeholder="La tua email" name="login[userName]" type="text" id="loginUserName">
-                <label for="loginPassword">Password</label>:
-                <input value="{{ password }}" placeholder="La tua password" name="login[password]" type="password" id="loginPassword">
-                <ul data-role="errors">
-                    <li data-role="error"></li>
-                </ul>
-                <button type="submit" disabled="{{ disabled }}"><i class="fa fa-lock"></i> Accedi</button>
+            <form on-submit="validate" data-role="form" action="login.html">
+                <div data-role="widget">
+                    <label for="loginUserName">Nome utente</label>:
+                    <input value="{{ userName }}" placeholder="La tua email" name="login[userName]" type="text" id="loginUserName">
+                    <ul data-role="validators" data-validation-target="userName">
+                        <li data-role="validator" data-validator="notEmpty">Il campo è obbligatorio</li>
+                        <li data-role="validator" data-validator="email">Il campo deve essere un'indirizzo email valido</li>
+                        <li data-role="validator" data-validator="noStartingBlanks">Ci sono spazi vuoti all'inizio del campo</li>
+                        <li data-role="validator" data-validator="noTrailingBlanks">Ci sono spazi vuoti alla fine del campo</li>
+                    </ul>
+                </div>
+
+                <div data-role="widget">
+                    <label for="loginPassword">Password</label>:
+                    <input value="{{ password }}" placeholder="La tua password" name="login[password]" type="password" id="loginPassword">
+                    <ul data-role="validators" data-validation-target="password">
+                        <li data-role="validator" data-validator="notEmpty">Il campo è obbligatorio</li>
+                        <li data-role="validator" data-validator="minLenght" data-constraint="{{ passwordLength }}">Il campo deve contenere almeno {{ passwordLength }} caratteri</li>
+                        <li data-role="validator" data-validator="noStartingBlanks">Ci sono spazi vuoti all'inizio del campo</li>
+                        <li data-role="validator" data-validator="noTrailingBlanks">Ci sono spazi vuoti alla fine del campo</li>
+                    </ul>
+                </div>
+
+                <div data-role="widget">
+                    <button type="submit" disabled="{{ disabled }}"><i class="fa fa-lock"></i> Accedi</button>
+                </div>
             </form>
+
             <ul data-role="alternatives">
                 <li data-role="alternative">
-                    <a href="{{ services.register }}">Registrati</a>
+                    Non sei registrato? <a href="register.html">Registrati!</a>
                 </li>
                 <li data-role="alternative">
-                    <a href="{{ services.rescue }}">Recupera credenziali di accesso</a>
+                    Hai perso la password? <a href="rescue.html">Recuperala!</a>
                 </li>
             </ul>
         </script>
 
-        <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
         <script>
             var LoginForm = new Ractive({
-                el: '#ForeGround',
-                template: '#LoginForm',
-                data: { services: {"login": "login.html", "register": "register.html", "rescue": "rescue.html" }, disabled: true }
-            });
-            LoginForm.observe({
-                "userName": function(newValue, oldValue){
-                },
-                "password": function(newValue, oldValue){
-                    if (newValue.length >= 8) {
-                        //
-                    }
+                "el": "#ForeGround",
+                "template": "#LoginForm",
+                "data": { "disabled": true, "passwordLength": 8 },
+                "validationPassedCallback": function(){
+                    LoginForm.set("disabled", false);
                 }
+            });
+
+            LoginForm.on("validate", function(){
+                //If doesn't validate
+                return false;
             });
         </script>
         <!-- endif -->
